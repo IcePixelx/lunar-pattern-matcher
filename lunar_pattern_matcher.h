@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <xmmintrin.h>
 
-namespace lunar_pattern_matcher
+namespace lpm
 {
 	constexpr size_t StrlenCompileTime(const char* const str)
 	{
@@ -299,13 +299,13 @@ namespace lunar_pattern_matcher
 	};
 }
 
-#define LPM_GET_PAT(name) lunar_pattern_matcher::name
+#define LPM_GET_PAT(name) lpm::name
 #define LPM_DEF_PAT(pattern, name) \
-namespace lunar_pattern_matcher \
+namespace lpm \
 { \
 	constexpr const char name##_ida_pattern[] = pattern; \
 	constexpr CIDAToCodePattern<name##_ida_pattern> name##_code_pattern = CIDAToCodePattern<name##_ida_pattern>(); \
 	constexpr CPatternContainer name = CPatternContainer(name##_code_pattern.GetPattern(), name##_code_pattern.GetMask()); \
 }
 
-#define LPM_FIND_PAT(container, data, dataLen) lunar_pattern_matcher::FindPattern(lunar_pattern_matcher::container, data, dataLen)
+#define LPM_FIND_PAT(container, data, dataLen) lpm::FindPattern(lpm::container, data, dataLen)
