@@ -138,11 +138,11 @@ namespace lpm
 		uint8_t byteMask[256];
 	};
 
-#ifdef _M_IX86
-#define PATTERN_ITERRATOR_MAX_INT 0xffffffffui32
-#elif _M_X64
-#define PATTERN_ITERRATOR_MAX_INT 0xffffffffffffffffui64
-#endif // #ifdef _M_IX86
+	#ifdef _M_IX86
+		#define PATTERN_ITERRATOR_MAX_INT 0xffffffffui32
+	#elif _M_X64
+		#define PATTERN_ITERRATOR_MAX_INT 0xffffffffffffffffui64
+	#endif // #ifdef _M_IX86
 	uint8_t* FindPattern(const CPatternContainer& container, const uint8_t* const data, const size_t dataLen)
 	{
 		const char* const pattern = container.pattern;
