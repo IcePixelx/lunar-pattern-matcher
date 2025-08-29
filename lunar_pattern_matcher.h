@@ -268,21 +268,29 @@ namespace lpm
 	private:
 		constexpr static size_t CalcBufSize(const char* const str, const size_t cIdx = 0, const bool wasWildcard = false)
 		{
+			// We already account for null terminator in BufLen() so return 0.
 			if (str[cIdx] == '\0')
 			{
-				return 1;
+				return 0;
 			}
 
 			// If the current character is a space, skip it.
 			if (str[cIdx] == ' ' || str[cIdx] == '\t')
 			{
-				return CalcBufSize(str, cIdx + 1, wasWildcard);
+				return CalcBufSize(str, cIdx + 1, false);
 			}
 
-			// If the current char is a wildcard and the previous one was also one, skip this wildcard.
-			if (str[cIdx] == '?' && wasWildcard)
+			// Check for wildcard
+			if (str[cIdx] == '?')
 			{
-				return CalcBufSize(str, cIdx + 1, true);
+				// If we already had a wildcard, it's double '??' which counts as one wildcard, skip this character.
+				if (wasWildcard)
+				{
+					return CalcBufSize(str, cIdx + 1, false);
+				}
+
+				// For handling single '?' we gotta count them as two characters, since the mask will insert a pseudo character.
+				return CalcBufSize(str, cIdx + 1, true) + 2;
 			}
 
 			return CalcBufSize(str, cIdx + 1, str[cIdx] == '?') + 1;
