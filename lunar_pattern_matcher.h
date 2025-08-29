@@ -293,7 +293,7 @@ namespace lpm
 				return CalcBufSize(str, cIdx + 1, true) + 2;
 			}
 
-			return CalcBufSize(str, cIdx + 1, str[cIdx] == '?') + 1;
+			return CalcBufSize(str, cIdx + 1, false) + 1;
 		}
 
 		constexpr static size_t BufLen()
